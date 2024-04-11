@@ -1,9 +1,8 @@
 const { Client } = require("pg");
 require('dotenv').config();
 const express = require("express");
+const cors = require("cors");
 const app = express();
-app.use(express.urlencoded({ extended: true }));
-
 
 //Anslut till databas med kod hämtad från .env
 const client = new Client({
@@ -26,3 +25,17 @@ client.connect((err) => {
         console.log("Ansluten till databas....")
     }
   });
+
+  //route
+
+  //Hämta cv
+app.get("/cv", (req, rest) => {
+
+
+});
+
+//Posta cv
+app.post("/cv", (req, rest) => {
+
+    
+});
