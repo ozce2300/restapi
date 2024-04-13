@@ -26,16 +26,63 @@ client.connect((err) => {
     }
   });
 
+  //Middlewear
+
+  app.use(cors());
+  app.use(express.json());
+
   //route
 
   //Hämta cv
-app.get("/cv", (req, rest) => {
+app.get("/cv", (req, res) => {
 
+    client.query(`SELECT * FROM cv;`, (err, results) => {
+        if(err) {
+            res.status(500).json({error:`Something went wrong: ${err}`});
+            return;
+        }
+
+        if (results.length === 0) {
+            res.status(200).json({error: `No cvs found`});
+        }
+
+        else {
+            res.json(results);
+        }
+    })
 
 });
 
 //Posta cv
-app.post("/cv", (req, rest) => {
+app.post("/cv", (req, res) => {
 
+
+    let companyname = req.body.companyname 
+    let jobtitle = req.body.jobtitle
+    let location = req.body.location
+    let description = req.body.description
+    
+    client.query(`INSERT INTO cv (companyname, jobtitle, location, description) VALUES($1, $2, $3, $4);`, [companyname,jobtitle,location,description], (err, results) => {
+        if(err) {
+            res.status(500).json({error:`Something went wrong: ${err}`});
+            return;
+        }
+
+        let cv = {
+            companyname : companyname,
+            jobtitle : jobtitle,
+            location : location,
+            description : description
+        }
+
+        res.json({message: "Cv tillagd", cv})
     
 });
+
+});
+
+//Lyssna
+app.listen(process.env.DB_PORT, () => {
+    console.log("Servern startad på port: " + process.env.DB_PORT);
+  });
+  
