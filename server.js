@@ -61,8 +61,11 @@ app.post("/cv", (req, res) => {
     let jobtitle = req.body.jobtitle
     let location = req.body.location
     let description = req.body.description
+    let startdate = req.body.startdate
+    let enddate = req.body.enddate
+
     
-    client.query(`INSERT INTO cv (companyname, jobtitle, location, description) VALUES($1, $2, $3, $4);`, [companyname,jobtitle,location,description], (err, results) => {
+    client.query(`INSERT INTO cv (companyname, jobtitle, location, description) VALUES($1, $2, $3, $4);`, [companyname,jobtitle,location,description, startdate, enddate], (err, results) => {
         if(err) {
             res.status(500).json({error:`Something went wrong: ${err}`});
             return;
@@ -72,7 +75,9 @@ app.post("/cv", (req, res) => {
             companyname : companyname,
             jobtitle : jobtitle,
             location : location,
-            description : description
+            description : description,
+            startdate : startdate,
+            enddate : enddate
         }
 
         res.json({message: "Cv tillagd", cv})
@@ -89,8 +94,10 @@ app.put("/cv/:id", (req, res) => {
     let jobtitle = req.body.jobtitle
     let location = req.body.location
     let description = req.body.description
-    
-    client.query(`UPDATE cv SET companyname = $1, jobtitle = $2, location = $3, description = $4 WHERE id = $5;`, [companyname, jobtitle, location, description, id], (err, results) => {
+    let startdate = req.body.startdate
+    let enddate = req.body.enddate
+
+    client.query(`UPDATE cv SET companyname = $1, jobtitle = $2, location = $3, description = $4 WHERE id = $5;`, [companyname, jobtitle, location, description, startdate, enddate, id], (err, results) => {
         if(err) {
             console.log("fel vid uppdatering:", err);
             res.status(500).json({error: "Något gick fel"});
