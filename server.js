@@ -97,7 +97,7 @@ app.put("/cv/:id", (req, res) => {
     let startdate = req.body.startdate
     let enddate = req.body.enddate
 
-    client.query(`UPDATE cv SET companyname = $1, jobtitle = $2, location = $3, description = $4 WHERE id = $5;`, [companyname, jobtitle, location, description, startdate, enddate, id], (err, results) => {
+    client.query(`UPDATE cv SET companyname = $1, jobtitle = $2, location = $3, description = $4, startdate = $5, enddate = $6 WHERE id = $7;`, [companyname, jobtitle, location, description, startdate, enddate, id], (err, results) => {
         if(err) {
             console.log("fel vid uppdatering:", err);
             res.status(500).json({error: "Något gick fel"});
