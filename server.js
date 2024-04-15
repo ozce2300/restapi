@@ -42,12 +42,12 @@ app.get("/cv", (req, res) => {
             return;
         }
 
-        if (results.length === 0) {
+        if (results.rows.length === 0) {
             res.status(200).json({error: `No cvs found`});
         }
 
         else {
-            res.json(results);
+            res.json(results.rows);
         }
     })
 
@@ -79,6 +79,41 @@ app.post("/cv", (req, res) => {
     
 });
 
+});
+
+// Uppdatera ett CV
+app.put("/cv/:id", (req, res) => {
+    const id = req.params.id;
+
+    let companyname = req.body.companyname 
+    let jobtitle = req.body.jobtitle
+    let location = req.body.location
+    let description = req.body.description
+    
+    client.query(`UPDATE cv SET companyname = $1, jobtitle = $2, location = $3, description = $4 WHERE id = $5;`, [companyname, jobtitle, location, description, id], (err, results) => {
+        if(err) {
+            console.log("fel vid uppdatering:", err);
+            res.status(500).json({error: "Något gick fel"});
+            return;
+        }
+
+        res.json({message: "CV uppdaterat"});
+    });
+});
+
+// Ta bort ett CV
+app.delete("/cv/:id", (req, res) => {
+    const id = req.params.id;
+
+    client.query(`DELETE FROM cv WHERE id = $1;`, [id], (err, results) => {
+        if(err) {
+            console.log("Fel vid radering:", err);
+            res.status(500).json({error: "Något gick fel"});
+            return;
+        }
+
+        res.json({message: "CV borttaget"});
+    });
 });
 
 //Lyssna
