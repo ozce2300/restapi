@@ -94,8 +94,8 @@ app.put("/cv/:id", (req, res) => {
     let jobtitle = req.body.jobtitle
     let location = req.body.location
     let description = req.body.description
-    let startdate = req.body.startdate
-    let enddate = req.body.enddate
+    let startdate = req.body.startDate
+    let enddate = req.body.endDate
 
     client.query(`UPDATE cv SET companyname = $1, jobtitle = $2, location = $3, description = $4, startdate = $5, enddate = $6 WHERE id = $7;`, [companyname, jobtitle, location, description, startdate, enddate, id], (err, results) => {
         if(err) {
