@@ -65,7 +65,7 @@ app.post("/cv", (req, res) => {
     let enddate = req.body.enddate
 
     
-    client.query(`INSERT INTO cv (companyname, jobtitle, location, description) VALUES($1, $2, $3, $4);`, [companyname,jobtitle,location,description, startdate, enddate], (err, results) => {
+    client.query(`INSERT INTO cv (companyname, jobtitle, location, description, startdate, enddate) VALUES($1, $2, $3, $4, $5, $6);`, [companyname,jobtitle,location,description, startdate, enddate], (err, results) => {
         if(err) {
             res.status(500).json({error:`Something went wrong: ${err}`});
             return;
